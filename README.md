@@ -1,4 +1,7 @@
-# Nuxt Minimal Starter
+# Nazar Alsaegh (220101131) / Talha Aydın (220101027)
+# FLO-ECOMMERCE-CLONE
+Flo E-Ticaret Sitesi Klonu için Proje.
+
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
