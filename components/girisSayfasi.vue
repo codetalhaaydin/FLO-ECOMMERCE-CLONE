@@ -67,7 +67,7 @@
     </div>
   </div>
 </template>
-
+ 
 <script>
 export default {
   data() {
@@ -97,7 +97,7 @@ export default {
   },
 };
 </script>
-
+ 
 <style scoped>
 /* General Styles */
 .login-page {
@@ -112,7 +112,7 @@ export default {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+ 
 .tabs-container {
   background-color: #ffffff;
   color: #333;
@@ -124,7 +124,7 @@ export default {
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
+ 
 .tab-button {
   flex: 1;
   border: none;
@@ -137,33 +137,34 @@ export default {
   border-radius: 10px;
   transition: background-color 0.3s, color 0.3s;
 }
-
+ 
 .tab-button.active {
   background-color: #ff6600;
   color: white;
 }
-
+ 
 .form-container {
+  width: 85.9%;
   border: 1px solid #ddd;
-  padding: 20px;
+  padding: 40px;
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
+ 
 .input-field {
-  width: 100%;
+  width: 94%;
   padding: 10px;
   margin-bottom: 20px;
   border: 1px solid #ddd;
   border-radius: 5px;
   transition: border-color 0.3s;
 }
-
+ 
 .input-field:focus {
   border-color: #ff6600;
 }
-
+ 
 .login-button,
 .signup-button {
   width: 100%;
@@ -176,18 +177,18 @@ export default {
   font-weight: bold;
   transition: background-color 0.3s;
 }
-
+ 
 .login-button:hover,
 .signup-button:hover {
   background-color: #e55d00;
 }
-
+ 
 .social-login {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
-
+ 
 .social-button {
   flex: 1;
   padding: 10px;
@@ -198,21 +199,21 @@ export default {
   font-size: 14px;
   transition: background-color 0.3s;
 }
-
+ 
 .social-button:hover {
   opacity: 0.9;
 }
-
+ 
 .google {
   background-color: #4285f4;
   color: white;
 }
-
+ 
 .apple {
   background-color: black;
   color: white;
 }
-
+ 
 .facebook {
   background-color: #3b5998;
   color: white;
