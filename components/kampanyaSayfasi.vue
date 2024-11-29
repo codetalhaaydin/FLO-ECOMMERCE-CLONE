@@ -11,7 +11,7 @@
           <img :src="campaign.image" :alt="campaign.title" class="promo-image">
           <h2 class="offer-title">{{ campaign.title }}</h2>
           <p class="offer-details">{{ campaign.date }}</p>
-          <button @click="showDetails(campaign)" class="offer-button">Ürünleri İncele</button>
+          <button @click="showDetails(campaign)" class="offer-button">Kampanya Detayları</button>
         </div>
       </div>
     </div>
