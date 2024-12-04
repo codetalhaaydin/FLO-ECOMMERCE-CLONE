@@ -26,9 +26,24 @@
     </div>
   </div>
 </template>
- 
-<script>
-export default {
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+// Ürün veri yapısını tanımlamak için bir interface
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  favorites: number;
+  reviews: number;
+  oldPrice: string;
+  newPrice: string;
+  discount: number;
+}
+
+export default defineComponent({
   data() {
     return {
       products: [
@@ -80,12 +95,12 @@ export default {
           newPrice: "999,99",
           discount: 17,
         },
-      ],
+      ] as Product[],
     };
   },
-};
+});
 </script>
- 
+
 <style scoped>
 * {
   font-family: 'Poppins', sans-serif;
