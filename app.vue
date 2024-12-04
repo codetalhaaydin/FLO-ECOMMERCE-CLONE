@@ -3,7 +3,7 @@
     <div class="sidebar">
       <img src="https://www.flo.com.tr/pub/assets/flo-v2/images/flo-logo.svg" alt="Flo Logo" class="logo" />
       
-      <!-- Sidebar Buttons with Updated Names -->
+ 
       <button class="sidebar-button" @click="updateState(0)">Header</button>
       <button class="sidebar-button" @click="updateState(1)">Özel Teklifler</button>
       <button class="sidebar-button" @click="updateState(2)">Footer</button>
@@ -18,7 +18,7 @@
       <span>Şuan ki index: {{ state }}</span>
     </div>
     
-    <!-- Main Sections Render Based on State -->
+    
     <div class="main-section" v-if="state === 0">
       <Header />
     </div>
@@ -52,7 +52,8 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
 import Header from "./components/header.vue";
 import SpecialOffers from "./components/specialOffers.vue";
 import Footer from "./components/footer.vue";
@@ -61,22 +62,37 @@ import SepetSayfasi from "./components/sepetSayfasi.vue";
 import KategoriSayfasi from "./components/kategoriSayfasi.vue";
 import YardimSayfasi from "./components/yardimSayfasi.vue";
 import IletisimSayfasi from "./components/iletisimSayfasi.vue";
-import KampanyaSayfasi from "./components/specialOffers.vue";
+import KampanyaSayfasi from "./components/kampanyaSayfasi.vue";
 import AyakkabiBakimRehberiSayfasi from "./components/ayakkabiBakimRehberiSayfasi.vue";
 
-export default {
-  data() {
-    return {
-      state: 0, // Başlangıçta 0. indexi seçili
+
+export default defineComponent({
+  name: 'Home',
+  components: {
+    Header,
+    SpecialOffers,
+    Footer,
+    GirisSayfasi,
+    SepetSayfasi,
+    KategoriSayfasi,
+    YardimSayfasi,
+    IletisimSayfasi,
+    KampanyaSayfasi,
+    AyakkabiBakimRehberiSayfasi
+  },
+  setup() {
+    
+    const state = ref<number>(0);
+
+    
+    const updateState = (index: number) => {
+      state.value = index;
     };
-  },
-  methods: {
-    // state'i değiştirecek method
-    updateState(index) {
-      this.state = index;
-    },
-  },
-};
+
+    
+    return { state, updateState };
+  }
+});
 </script>
 
 <style scoped>
