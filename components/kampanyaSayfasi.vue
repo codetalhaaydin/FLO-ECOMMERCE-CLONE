@@ -24,12 +24,23 @@
     </transition>
   </div>
 </template>
- 
-<script>
-export default {
+
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+
+interface Campaign {
+  id: number;
+  image: string;
+  title: string;
+  date: string;
+  details: string;
+}
+
+export default defineComponent({
+  name: 'PromoComponent',
   data() {
     return {
-      selectedCampaign: null,
+      selectedCampaign: ref<Campaign | null>(null),
       campaigns: [
         {
           id: 1,
@@ -52,25 +63,25 @@ export default {
           date: "21/11/2024 - 30/11/2024",
           details: "Bu kampanya ile birçok üründe %50'ye varan indirimler sizi bekliyor. 21/11/2024 - 30/11/2024 tarihleri arasında geçerlidir."
         }
-      ]
+      ] as Campaign[]
     };
   },
   methods: {
-    showDetails(campaign) {
+    showDetails(campaign: Campaign) {
       this.selectedCampaign = campaign;
     },
     closeDetails() {
       this.selectedCampaign = null;
     }
   }
-};
+});
 </script>
- 
+
 <style scoped>
 * {
   font-family: 'Poppins', sans-serif;
 }
- 
+
 .promo-container {
   display: flex;
   flex-direction: column;
@@ -79,7 +90,7 @@ export default {
   background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
   min-height: 100vh;
 }
- 
+
 .promo-banner {
   text-align: center;
   max-width: 800px;
@@ -89,7 +100,7 @@ export default {
   border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
- 
+
 .promo-image {
   width: 100%;
   height: auto;
@@ -97,26 +108,26 @@ export default {
   margin-bottom: 20px;
   transition: transform 0.3s, box-shadow 0.3s;
 }
- 
+
 .promo-image:hover {
   transform: scale(1.05);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
- 
+
 .promo-header {
   font-size: 32px;
   color: #fd6820;
   margin-bottom: 20px;
   font-weight: bold;
 }
- 
+
 .promo-offers {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
 }
- 
+
 .offer-card {
   background: #ffffff;
   padding: 20px;
@@ -128,25 +139,25 @@ export default {
   text-align: left;
   transition: transform 0.3s, box-shadow 0.3s;
 }
- 
+
 .offer-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
- 
+
 .offer-title {
   font-size: 22px;
   color: #333;
   margin-bottom: 10px;
   font-weight: bold;
 }
- 
+
 .offer-details {
   font-size: 16px;
   color: #777;
   margin-bottom: 20px;
 }
- 
+
 .offer-button {
   background: #fd6820;
   color: #fff;
@@ -156,12 +167,12 @@ export default {
   cursor: pointer;
   transition: background 0.3s, transform 0.3s;
 }
- 
+
 .offer-button:hover {
   background: #e65b1b;
   transform: scale(1.05);
 }
- 
+
 .promo-description {
   margin-top: 20px;
   background: #fff;
@@ -171,19 +182,19 @@ export default {
   max-width: 800px;
   text-align: left;
 }
- 
+
 .promo-description h2 {
   font-size: 24px;
   color: #333;
   margin-bottom: 10px;
   font-weight: bold;
 }
- 
+
 .promo-description p {
   font-size: 16px;
   color: #777;
 }
- 
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
