@@ -33,57 +33,75 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      activeTab: "deri", // Varsayılan sekme
-      tabs: [
-        { id: "deri", name: "Deri Ayakkabı Bakımı" },
-        { id: "suet", name: "Süet ve Nubuk Ayakkabı Bakımı" },
-        { id: "spor", name: "Spor Ayakkabı Bakımı" },
-        { id: "genel", name: "Genel Bakım İpuçları" },
-      ],
-      contents: {
-        deri: {
-          title: "Deri Ayakkabı Bakımı",
-          description:
-            "Ayakkabı bakımına başlamadan önce varsa bağcıkları çıkartılır. Deri ayakkabı, temizleme köpüğü, fırça ya da kuru bir bez yardımı ile toz, kir, çamur ve benzeri lekelerinden arındırılır. Temizleme işleminden sonra derinin nemli kalmamasına dikkat edilir. Kuru ve temiz deri yüzeyine likit ya da krem boya uygulaması yapılır. Boya tüm deri yüzeyine eşit miktarda uygulanır. Uygulanacak boya ayakkabının rengine uygun ya da natürel renk olmalıdır. Uygulama esnasında boya ince bir kat şeklinde tüm yüzeye eşit oranda sürülür ve ardından kurumaya bırakılır. Boyası kuruyan ayakkabı, deri parlatma süngeri ya da parlatma fırçası ile daha parlak bir görünüm kazandırılır. Boyama sıklığı en fazla 2-3 günde bir olmalıdır. Aşırı boya kullanımı, kalitesiz boya kullanımı ve sık aralıklarla boyamak, deri üzerindeki gözeneklerin tıkanmasına ve ayak terlemesine neden olacaktır. İçerisine ayakkabı deodorantı sıkılarak ya da koku topu bırakılarak istenmeyen kokulardan arındırılır. Ayakkabının emmiş olduğu nemi atması için, iki gün arayla giyilmelidir. Ayakkabının uzun süreli kullanımı açısından periyodik olarak bakının yapılması gereklidir. Karlı ve yağmurlu havalarda dışarı çıkmadan önce kullanma talimatına uygun olarak su itici sprey uygulanmalıdır.",
-          image: "https://floimages.mncdn.com/media/catalog/product/img/banners/22-12/21/rectangle-3.jpg.webp",
-        },
-        suet: {
-          title: "Süet ve Nubuk Ayakkabı Bakımı",
-          description:
-            "Ayakkabı bakımına başlamadan önce varsa bağcıkları çıkartılır. Süet Ayakkabılar, süet süngeri ya da süet fırçası ile temizliği yapılır. Temizleme işlemi bağcıklarından, ayakkabının burnuna doğru veya derinin akış yönüne doğru tek bir yönde yapılır. Ayakkabı natürel renk ya da ayakkabıya uygun renk bir süet boyası veya süet spreyi ile boyanır. Sprey boya kullanmadan önce kutusu iyice çalkalanır. En az 20/25 cm mesafeden ve her yüzeyine eşit uygulanacak şekilde sıkılır. En az 30 dakika kurumaya bırakılır. Boyama sıklığı en fazla 2-3 günde bir olmalıdır. Kuruduktan sonra süet fırçası ya da süngeri vasıtasıyla yine derinin yönüne doğru son uygulaması yapılır. İçerisine ayakkabı deodorantı sıkılarak ya da koku topu bırakılarak istenmeyen kokulardan arındırılır. Ayakkabının emmiş olduğu nemi atması için, iki gün arayla giyilmelidir. Ayakkabının uzun süreli kullanımı açısından periyodik olarak bakının yapılması gereklidir. Karlı ve yağmurlu havalarda dışarı çıkmadan önce kullanma talimatına uygun olarak su itici sprey uygulanmalıdır.",
-          image: "https://floimages.mncdn.com/media/catalog/product/img/banners/22-12/21/648x420-1671626227.jpg.webp",
-        },
-        spor: {
-          title: "Spor Ayakkabı Bakımı",
-          description:
-            "Ayakkabı bakımına başlamadan önce varsa bağcıkları çıkartılır. Fileli sneaker ayakkabılarda temizleme köpüğü yardımı ile toz, kir, çamur ve benzeri lekelerinden arındırılır. Tabanlarına spor ayakkabı temizleme süngeri uygulanarak temizliği yapılır. Deri ve süet sneaker ayakkabılarda ise temizleme köpüğü veya spor ayakkabı temizleme süngeri kullanılarak lekelerden arındırılır. Spor Ayakkabı temizleme süngeri kullanım öncesi nemlendirilir, kuru kullanımdan kaçınılır ve çok fazla deriye bastırılmamalıdır. Beyaz yüzey ve tabanlar için beyaz boya uygulaması yapılır. Ayakkabı içerisine, ayakkabı deodorantı sıkılarak ya da koku topu bırakılarak istenmeyen kokulardan arındırılır. Ayakkabının emmiş olduğu nemi atması için, iki gün arayla giyilmelidir. Ayakkabının uzun süreli kullanımı açısından periyodik olarak bakının yapılması gereklidir. Karlı ve yağmurlu havalarda dışarı çıkmadan önce kullanma talimatına uygun olarak su itici sprey uygulanmalıdır.",
-          image: "https://floimages.mncdn.com/media/catalog/product/img/banners/22-12/21/648x420-2-1671626797.jpg.webp",
-        },
-        genel: {
-          title: "Genel Bakım İpuçları",
-          description:
-            "Ayakkabının emmiş olduğu nemi atması için, iki gün arayla giyilmelidir. Ayakkabı, temizlenme amacıyla çamaşır makinesine atılmamalıdır. Ayakkabı bakımı için özel üretilmiş kimyasallar ile temizlenmelidir. Çamaşır suyu, deterjan, vb. malzemelerle temizlenmemelidir. Islak mendil ile temizliği yapılmamalıdır. Nemli ayakkabılar ısı kaynaklarından uzakta kurumaya bırakılmalıdır. Ayakkabılar plastik bir torba içinde saklamamalı, kuvvetli ışıkta ya da yoğun güneş ışığında uzun süre bırakılmamalıdır. Ayakkabılar muhafaza edilirken iç tarafına kalıp koyulmalı ya da gazete ve kağıt parçaları yerleştirilmelidir. Ayakkabılar nemli ortamda muhafaza edilmemelidir.",
-          image: "https://floimages.mncdn.com/media/catalog/product/img/banners/22-12/21/648x420-3.jpg.webp",
-        },
+<script lang="ts">
+import { defineComponent, ref, computed } from 'vue';
+
+interface Tab {
+  id: string;
+  name: string;
+}
+
+interface Content {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+export default defineComponent({
+  name: 'AyakkabiBakimRehberi',
+  setup() {
+    const activeTab = ref<string>('deri');
+
+    const tabs: Tab[] = [
+      { id: 'deri', name: 'Deri Ayakkabı Bakımı' },
+      { id: 'suet', name: 'Süet ve Nubuk Ayakkabı Bakımı' },
+      { id: 'spor', name: 'Spor Ayakkabı Bakımı' },
+      { id: 'genel', name: 'Genel Bakım İpuçları' },
+    ];
+
+    const contents: Record<string, Content> = {
+      deri: {
+        title: 'Deri Ayakkabı Bakımı',
+        description:
+          'Ayakkabı bakımına başlamadan önce varsa bağcıkları çıkartılır...',
+        image: 'https://floimages.mncdn.com/media/catalog/product/img/banners/22-12/21/rectangle-3.jpg.webp',
+      },
+      suet: {
+        title: 'Süet ve Nubuk Ayakkabı Bakımı',
+        description:
+          'Ayakkabı bakımına başlamadan önce varsa bağcıkları çıkartılır...',
+        image: 'https://floimages.mncdn.com/media/catalog/product/img/banners/22-12/21/648x420-1671626227.jpg.webp',
+      },
+      spor: {
+        title: 'Spor Ayakkabı Bakımı',
+        description:
+          'Ayakkabı bakımına başlamadan önce varsa bağcıkları çıkartılır...',
+        image: 'https://floimages.mncdn.com/media/catalog/product/img/banners/22-12/21/648x420-2-1671626797.jpg.webp',
+      },
+      genel: {
+        title: 'Genel Bakım İpuçları',
+        description: 'Ayakkabının emmiş olduğu nemi atması için...',
+        image: 'https://floimages.mncdn.com/media/catalog/product/img/banners/22-12/21/648x420-3.jpg.webp',
       },
     };
+
+    const activeContent = computed<Content>(() => contents[activeTab.value]);
+
+    const selectTab = (tabId: string) => {
+      activeTab.value = tabId;
+    };
+
+    return {
+      activeTab,
+      tabs,
+      contents,
+      activeContent,
+      selectTab,
+    };
   },
-  computed: {
-    activeContent() {
-      return this.contents[this.activeTab];
-    },
-  },
-  methods: {
-    selectTab(tabId) {
-      this.activeTab = tabId;
-    },
-  },
-};
+});
 </script>
+
 
 <style scoped>
 /* Genel Stil */
