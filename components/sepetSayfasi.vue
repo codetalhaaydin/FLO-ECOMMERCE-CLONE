@@ -1,7 +1,7 @@
 <template>
   <div class="cart-page">
     <h1>Sepetim</h1>
- 
+
     <!-- Yeni Ürün Ekle Section -->
     <div class="add-product-section">
       <h2>Yeni Ürün Ekle</h2>
@@ -9,7 +9,8 @@
         <div
           v-for="(product, index) in availableProducts"
           :key="index"
-          class="product-card">
+          class="product-card"
+        >
           <div class="badge-container">
             <span class="badge">Yeni Sezon</span>
           </div>
@@ -21,11 +22,12 @@
           </div>
           <button
             @click="addToCart(product)"
-            class="add-to-cart-btn">Sepete Ekle</button>
+            class="add-to-cart-btn"
+          >Sepete Ekle</button>
         </div>
       </div>
     </div>
- 
+
     <!-- Cart Section -->
     <div v-if="cartItems.length > 0">
       <div v-for="(item, index) in cartItems" :key="item.id" class="cart-item">
@@ -41,7 +43,7 @@
           <button @click="removeFromCart(index)" class="remove-btn">Sil</button>
         </div>
       </div>
- 
+
       <!-- Cart Summary -->
       <div class="cart-summary">
         <div class="total-price">
@@ -50,16 +52,27 @@
         <button @click="confirmCart" class="confirm-btn">Sepeti Onayla</button>
       </div>
     </div>
- 
+
     <!-- Empty Cart Section -->
     <div v-else class="empty-cart">
       <p>Sepetinizde ürün bulunmamaktadır. Alışverişe başlamak için <a href="/shop">buraya tıklayın.</a></p>
     </div>
   </div>
 </template>
- 
-<script>
-export default {
+
+<script lang="ts">
+import { defineComponent } from "vue";
+
+// Define types for the products
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+}
+
+export default defineComponent({
   data() {
     return {
       // Available products to add
@@ -85,7 +98,7 @@ export default {
           price: 2599.99,
           image: "https://floimages.mncdn.com/mnpadding/600/900/FFFFFF/media/catalog/product/24-10/11/101783596_f2-1728662120.JPG?w=600"
         }
-      ],
+      ] as Product[], // Type the available products
       // Initial cart items
       cartItems: [
         {
@@ -95,22 +108,22 @@ export default {
           price: 1099.99,
           image: "https://floimages.mncdn.com/mnpadding/600/900/FFFFFF/media/catalog/product/24-07/29/101744995_f2.jpg?w=600"
         }
-      ]
+      ] as Product[] // Type the cart items
     };
   },
   computed: {
-    totalPrice() {
-      return this.cartItems.reduce((total, item) => total + item.price, 0);
+    totalPrice(): number {
+      return this.cartItems.reduce((total: number, item: Product) => total + item.price, 0);
     }
   },
   methods: {
-    addToCart(product) {
+    addToCart(product: Product): void {
       this.cartItems.push(product);
     },
-    removeFromCart(index) {
+    removeFromCart(index: number): void {
       this.cartItems.splice(index, 1);
     },
-    confirmCart() {
+    confirmCart(): void {
       if (this.cartItems.length > 0) {
         alert("Sepetiniz başarıyla onaylandı!");
         this.cartItems = [];
@@ -119,31 +132,31 @@ export default {
       }
     }
   }
-};
+});
 </script>
- 
+
 <style scoped>
 .cart-page {
   padding: 20px;
   font-family: Arial, sans-serif;
 }
- 
+
 h1, h2 {
   font-size: 24px;
   color: #333;
 }
- 
+
 .add-product-section {
   margin-bottom: 100px;
 }
- 
+
 .product-list {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start;
 }
- 
+
 .product-card {
   flex: 1 1 calc(30% - 20px);
   background-color: #fff;
@@ -155,14 +168,14 @@ h1, h2 {
   flex-direction: column;
   align-items: center;
 }
- 
+
 .badge-container {
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin-bottom: 10px;
 }
- 
+
 .badge {
   background-color: #f2f2f2;
   padding: 5px 10px;
@@ -170,16 +183,14 @@ h1, h2 {
   font-size: 18px;
   color: #000;
 }
- 
- 
- 
+
 .product-image {
   width: 220px;
   height: 350px;
   object-fit: OVERLAY;
   margin-bottom: 0px;
 }
- 
+
 .product-title {
   font-size: 19px;
   font-weight: bold;
@@ -187,21 +198,21 @@ h1, h2 {
   color: #333;
   margin-bottom: 2px;
 }
- 
+
 .product-description {
   font-size: 15px;
   color: #666;
   text-align: center;
   margin-bottom: 10px;
 }
- 
+
 .price-section {
   font-size: 16px;
   font-weight: bold;
   color: #ff6600;
   margin-bottom: 10px;
 }
- 
+
 .add-to-cart-btn {
   background-color: #ff6600;
   color: #fff;
@@ -212,34 +223,34 @@ h1, h2 {
   font-size: 18px;
   transition: background-color 0.3s;
 }
- 
+
 .add-to-cart-btn:hover {
   background-color: #e65c00;
 }
- 
+
 .cart-item {
   display: flex;
   justify-content: space-between;
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
- 
+
 .item-details {
   display: flex;
 }
- 
+
 .item-price {
   font-size: 18px;
   font-weight: bold;
   color: #ff6600;
 }
- 
+
 .item-actions {
   display: flex;
   justify-content: center;
   align-items: center;
 }
- 
+
 .remove-btn {
   background-color: #ff6600;
   color: white;
@@ -249,18 +260,18 @@ h1, h2 {
   cursor: pointer;
   font-size: 25px;
 }
- 
+
 .remove-btn:hover {
   background-color: #e65c00;
 }
- 
+
 .cart-summary {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
   font-size: 18px;
 }
- 
+
 .confirm-btn {
   background-color: #ff6600;
   color: white;
@@ -270,22 +281,22 @@ h1, h2 {
   cursor: pointer;
   font-size: 16px;
 }
- 
+
 .confirm-btn:hover {
   background-color: #e65c00;
 }
- 
+
 .empty-cart {
   text-align: center;
   font-size: 16px;
   color: #777;
 }
- 
+
 .empty-cart a {
   color: #ff6600;
   text-decoration: none;
 }
- 
+
 .empty-cart a:hover {
   text-decoration: underline;
 }
