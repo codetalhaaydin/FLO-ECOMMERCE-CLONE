@@ -1,5 +1,5 @@
 <template>
-  <div>Hizmetlerimiz</div>
+  
   <div class="flex flex-col lg:flex-row gap-8 p-6 bg-gray-50">
     <!-- Sol Menü -->
     <div class="w-full lg:w-1/4">

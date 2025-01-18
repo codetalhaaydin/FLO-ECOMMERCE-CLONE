@@ -2,7 +2,6 @@
   <div class="cart-page">
     <h1>Sepetim</h1>
 
-    <!-- Yeni Ürün Ekle Section -->
     <div class="add-product-section">
       <h2>Yeni Ürün Ekle</h2>
       <div class="product-list">
@@ -20,16 +19,15 @@
           <div class="price-section">
             <span class="product-price">₺{{ product.price.toFixed(2) }}</span>
           </div>
-          <button
-            @click="addToCart(product)"
-            class="add-to-cart-btn"
-          >Sepete Ekle</button>
+          <button @click="addToCart(product)" class="add-to-cart-btn">
+            Sepete Ekle
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Cart Section -->
-    <div v-if="cartItems.length > 0">
+    <div v-if="loading">Yükleniyor...</div>
+    <div v-else-if="cartItems.length > 0">
       <div v-for="(item, index) in cartItems" :key="item.id" class="cart-item">
         <div class="item-details">
           <img :src="item.image" alt="Product Image" class="product-image" />
@@ -40,11 +38,12 @@
           </div>
         </div>
         <div class="item-actions">
-          <button @click="removeFromCart(index)" class="remove-btn">Sil</button>
+          <button @click="removeFromCart(String(item.id), index)" class="remove-btn">
+            Sil
+          </button>
         </div>
       </div>
 
-      <!-- Cart Summary -->
       <div class="cart-summary">
         <div class="total-price">
           <strong>Toplam Fiyat: ₺{{ totalPrice.toFixed(2) }}</strong>
@@ -53,19 +52,35 @@
       </div>
     </div>
 
-    <!-- Empty Cart Section -->
     <div v-else class="empty-cart">
-      <p>Sepetinizde ürün bulunmamaktadır. Alışverişe başlamak için <a href="/shop">buraya tıklayın.</a></p>
+      <p>
+        Sepetinizde ürün bulunmamaktadır. Alışverişe başlamak için
+        <a href="/shop">buraya tıklayın.</a>
+      </p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set, remove, onValue } from "firebase/database";
 
-// Define types for the products
+const firebaseConfig = {
+  apiKey: "AIzaSyCOSq6Bsosrmk_KCBNojyWtmuaDTk7sqAQ",
+  authDomain: "web-floproje.firebaseapp.com",
+  projectId: "web-floproje",
+  storageBucket: "web-floproje.firebasestorage.app",
+  messagingSenderId: "968149123455",
+  appId: "1:968149123455:web:c76258b2581da286fd1a4a",
+  databaseURL: "https://web-floproje-default-rtdb.firebaseio.com" 
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
 interface Product {
-  id: number;
+  id: string | number; // ID artık string veya number olabilir
   name: string;
   description: string;
   price: number;
@@ -75,63 +90,93 @@ interface Product {
 export default defineComponent({
   data() {
     return {
-      // Available products to add
       availableProducts: [
         {
-          id: 1,
+          id: '1', // string id
           name: "U.S. Polo Assn",
           description: "VANCE 4PR Siyah Erkek Sneaker",
           price: 1899.99,
-          image: "https://floimages.mncdn.com/mnpadding/600/900/FFFFFF/media/catalog/product/24-06/10/101812540_f2.jpg?w=600"
+          image:
+            "https://floimages.mncdn.com/mnpadding/600/900/FFFFFF/media/catalog/product/24-06/10/101812540_f2.jpg?w=600",
         },
         {
-          id: 2,
+          id: '2', // string id
           name: "İnci",
           description: "INCI HERSON.K 4PR Siyah Kadın Düz Bot",
           price: 1399.99,
-          image: "https://floimages.mncdn.com/mnpadding/600/900/FFFFFF/media/catalog/product/24-05/29/101922875_f2.jpg?w=600"
+          image:
+            "https://floimages.mncdn.com/mnpadding/600/900/FFFFFF/media/catalog/product/24-05/29/101922875_f2.jpg?w=600",
         },
         {
-          id: 3,
+          id: '3', // string id
           name: "Lumberjack",
           description: "OLIVER 4PR Bej Kadın Outdoor Bot",
           price: 2599.99,
-          image: "https://floimages.mncdn.com/mnpadding/600/900/FFFFFF/media/catalog/product/24-10/11/101783596_f2-1728662120.JPG?w=600"
-        }
-      ] as Product[], // Type the available products
-      // Initial cart items
-      cartItems: [
-        {
-          id: 4,
-          name: "Kinetix",
-          description: "ARCTIC PU KRK HI 4PR Siyah Erkek Outdoor Bot",
-          price: 1099.99,
-          image: "https://floimages.mncdn.com/mnpadding/600/900/FFFFFF/media/catalog/product/24-07/29/101744995_f2.jpg?w=600"
-        }
-      ] as Product[] // Type the cart items
+          image:
+            "https://floimages.mncdn.com/mnpadding/600/900/FFFFFF/media/catalog/product/24-10/11/101783596_f2-1728662120.JPG?w=600",
+        },
+      ] as Product[],
+      cartItems: [] as Product[],
+      loading: true,
     };
+  },
+  mounted() {
+    this.getCartItems();
   },
   computed: {
     totalPrice(): number {
-      return this.cartItems.reduce((total: number, item: Product) => total + item.price, 0);
-    }
+      return this.cartItems.reduce(
+        (total: number, item: Product) => total + item.price,
+        0
+      );
+    },
   },
   methods: {
-    addToCart(product: Product): void {
-      this.cartItems.push(product);
+    getCartItems() {
+      const cartItemsRef = ref(db, 'cartItems');
+      onValue(cartItemsRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          this.cartItems = Object.keys(data).map((key) => ({
+            id: key,
+            ...data[key],
+          }));
+        } else {
+          this.cartItems = [];
+        }
+        this.loading = false;
+      });
     },
-    removeFromCart(index: number): void {
-      this.cartItems.splice(index, 1);
+    addToCart(product: Product): void {
+      const cartItemRef = ref(db, 'cartItems/' + product.id); // ürün id si ile ekleme
+      set(cartItemRef, product)
+        .then(() => {
+          console.log("Ürün sepete eklendi.");
+        })
+        .catch((error) => {
+          console.error("Ürün sepete eklenirken hata oluştu:", error);
+        });
+    },
+    removeFromCart(itemId: string, index: number): void {
+      const itemRef = ref(db, `cartItems/${itemId}`);
+      remove(itemRef)
+        .then(() => {
+          console.log("Ürün sepetten silindi.");
+        })
+        .catch((error) => {
+          console.error("Ürün silinirken hata oluştu:", error);
+        });
     },
     confirmCart(): void {
       if (this.cartItems.length > 0) {
         alert("Sepetiniz başarıyla onaylandı!");
-        this.cartItems = [];
+        const cartItemsRef = ref(db, 'cartItems');
+        remove(cartItemsRef); // Sepeti temizle
       } else {
         alert("Sepetinizde ürün bulunmamaktadır.");
       }
-    }
-  }
+    },
+  },
 });
 </script>
 
