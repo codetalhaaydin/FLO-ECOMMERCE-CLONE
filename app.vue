@@ -4,6 +4,7 @@
       <img src="https://www.flo.com.tr/pub/assets/flo-v2/images/flo-logo.svg" alt="Flo Logo" class="logo" />
       
  
+      <button class="sidebar-button" @click="updateState(10)">WEB</button>
       <button class="sidebar-button" @click="updateState(0)">Header</button>
       <button class="sidebar-button" @click="updateState(1)">Özel Teklifler</button>
       <button class="sidebar-button" @click="updateState(2)">Footer</button>
@@ -49,6 +50,9 @@
     <div class="main-section" v-if="state === 9">
       <AyakkabiBakimRehberiSayfasi />
     </div>
+    <div class="main-section" v-if="state === 10">
+      <WEB PAGE />
+    </div>
   </div>
 </template>
 
@@ -64,7 +68,7 @@ import YardimSayfasi from "./components/yardimSayfasi.vue";
 import IletisimSayfasi from "./components/iletisimSayfasi.vue";
 import KampanyaSayfasi from "./components/kampanyaSayfasi.vue";
 import AyakkabiBakimRehberiSayfasi from "./components/ayakkabiBakimRehberiSayfasi.vue";
-
+import WEB from "./components/WEB.vue";
 
 export default defineComponent({
   name: 'Home',
@@ -78,7 +82,8 @@ export default defineComponent({
     YardimSayfasi,
     IletisimSayfasi,
     KampanyaSayfasi,
-    AyakkabiBakimRehberiSayfasi
+    AyakkabiBakimRehberiSayfasi,
+    WEB
   },
   setup() {
     
