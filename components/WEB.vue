@@ -12,7 +12,7 @@
           <span>Yardım</span>
         </div>
       </div>
-
+ 
       <div class="header-content">
         <div class="logo">
           <img
@@ -20,7 +20,7 @@
             alt="Flo Logo"
           />
         </div>
-
+ 
         <nav class="main-navigation">
           <ul>
             <li><a href="#">Kadın</a></li>
@@ -33,14 +33,14 @@
             <li><a href="#">Markalar</a></li>
           </ul>
         </nav>
-
+ 
         <div class="search-bar">
           <input type="text" placeholder="Aradığınız ürünü yazınız" />
           <button class="search-button">
             <i class="fas fa-search"></i>
           </button>
         </div>
-
+ 
         <div class="user-actions">
           <router-link to="/girisSayfasi" class="action-button">
             <i class="fas fa-user"></i>
@@ -53,7 +53,7 @@
         </div>
       </div>
     </header>
-
+ 
     <section class="main-banner">
       <div class="banner-container">
         <div class="banner">
@@ -72,7 +72,7 @@
         </div>
       </div>
     </section>
-
+ 
     <section class="main-banner">
       <div class="banner">
         <img
@@ -87,7 +87,7 @@
         />
       </div>
     </section>
-
+ 
     <footer class="footer">
       <div class="footer-container">
         <div class="footer-section">
@@ -174,10 +174,10 @@
     </footer>
   </div>
 </template>
-
+ 
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, ref } from "vue";
-
+ 
 export default defineComponent({
   name: "Header",
   setup() {
@@ -203,38 +203,38 @@ export default defineComponent({
         altText: "1000 TL İndirim",
       },
     ]);
-
+ 
     const currentBannerIndex = ref(0);
-
+ 
     const prevBanner = () => {
       currentBannerIndex.value =
         (currentBannerIndex.value - 1 + bannerData.value.length) %
         bannerData.value.length;
     };
-
+ 
     const setBanner = (index: number) => {
       currentBannerIndex.value = index;
     };
-
+ 
     const nextBanner = () => {
       currentBannerIndex.value =
         (currentBannerIndex.value + 1) % bannerData.value.length;
     };
-
+ 
     let intervalId: number;
-
+ 
     onMounted(() => {
       let intervalId: NodeJS.Timeout;
       intervalId = setInterval(nextBanner, 4000); // Change banner every 4 seconds
     });
-
+ 
     onUnmounted(() => {
       let intervalId: NodeJS.Timeout | null = null;
       if (intervalId) {
         clearInterval(intervalId);
       }
     });
-
+ 
     return {
       bannerData,
       currentBannerIndex,
@@ -505,13 +505,13 @@ export default defineComponent({
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Hafif gölge efekti */
   transition: all 0.3s ease; /* Geçiş efekti */
 }
-
+ 
 .action-button:hover {
   background-color: #e65500; /* Hover durumunda arkaplan rengi */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Hover durumunda daha belirgin gölge */
   transform: translateY(-2px); /* Hover durumunda hafif yukarı hareket */
 }
-
+ 
 .action-button i {
   margin-right: 8px;
   font-size: 1.2em;

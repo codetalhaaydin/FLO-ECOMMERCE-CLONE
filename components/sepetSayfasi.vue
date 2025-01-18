@@ -19,16 +19,16 @@
           <div class="price-section">
             <span class="product-price">₺{{ product.price.toFixed(2) }}</span>
           </div>
-          <button @click="addToCart(product)" class="add-to-cart-btn">
+          <button @click="cartStore.addToCart(product)" class="add-to-cart-btn">
             Sepete Ekle
           </button>
         </div>
       </div>
     </div>
 
-    <div v-if="loading">Yükleniyor...</div>
-    <div v-else-if="cartItems.length > 0">
-      <div v-for="(item, index) in cartItems" :key="item.id" class="cart-item">
+    <div v-if="cartStore.loading">Yükleniyor...</div>
+    <div v-else-if="cartStore.cartItems.length > 0">
+      <div v-for="(item, index) in cartStore.cartItems" :key="item.id" class="cart-item">
         <div class="item-details">
           <img :src="item.image" alt="Product Image" class="product-image" />
           <div class="product-info">
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="item-actions">
-          <button @click="removeFromCart(String(item.id), index)" class="remove-btn">
+          <button @click="cartStore.removeFromCart(item.id)" class="remove-btn">
             Sil
           </button>
         </div>
@@ -46,9 +46,13 @@
 
       <div class="cart-summary">
         <div class="total-price">
-          <strong>Toplam Fiyat: ₺{{ totalPrice.toFixed(2) }}</strong>
+          <strong
+            >Toplam Fiyat: ₺{{ cartStore.totalPrice.toFixed(2) }}</strong
+          >
         </div>
-        <button @click="confirmCart" class="confirm-btn">Sepeti Onayla</button>
+        <button @click="cartStore.confirmCart" class="confirm-btn">
+          Sepeti Onayla
+        </button>
       </div>
     </div>
 
@@ -62,25 +66,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, remove, onValue } from "firebase/database";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCOSq6Bsosrmk_KCBNojyWtmuaDTk7sqAQ",
-  authDomain: "web-floproje.firebaseapp.com",
-  projectId: "web-floproje",
-  storageBucket: "web-floproje.firebasestorage.app",
-  messagingSenderId: "968149123455",
-  appId: "1:968149123455:web:c76258b2581da286fd1a4a",
-  databaseURL: "https://web-floproje-default-rtdb.firebaseio.com" 
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+import { defineComponent } from 'vue';
+import { useCartStore } from '@/store/cart';
 
 interface Product {
-  id: string | number; // ID artık string veya number olabilir
+  id: string | number;
   name: string;
   description: string;
   price: number;
@@ -88,6 +78,13 @@ interface Product {
 }
 
 export default defineComponent({
+  setup() {
+    const cartStore = useCartStore();
+
+    return {
+      cartStore,
+    };
+  },
   data() {
     return {
       availableProducts: [
@@ -116,66 +113,10 @@ export default defineComponent({
             "https://floimages.mncdn.com/mnpadding/600/900/FFFFFF/media/catalog/product/24-10/11/101783596_f2-1728662120.JPG?w=600",
         },
       ] as Product[],
-      cartItems: [] as Product[],
-      loading: true,
     };
   },
   mounted() {
-    this.getCartItems();
-  },
-  computed: {
-    totalPrice(): number {
-      return this.cartItems.reduce(
-        (total: number, item: Product) => total + item.price,
-        0
-      );
-    },
-  },
-  methods: {
-    getCartItems() {
-      const cartItemsRef = ref(db, 'cartItems');
-      onValue(cartItemsRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-          this.cartItems = Object.keys(data).map((key) => ({
-            id: key,
-            ...data[key],
-          }));
-        } else {
-          this.cartItems = [];
-        }
-        this.loading = false;
-      });
-    },
-    addToCart(product: Product): void {
-      const cartItemRef = ref(db, 'cartItems/' + product.id); // ürün id si ile ekleme
-      set(cartItemRef, product)
-        .then(() => {
-          console.log("Ürün sepete eklendi.");
-        })
-        .catch((error) => {
-          console.error("Ürün sepete eklenirken hata oluştu:", error);
-        });
-    },
-    removeFromCart(itemId: string, index: number): void {
-      const itemRef = ref(db, `cartItems/${itemId}`);
-      remove(itemRef)
-        .then(() => {
-          console.log("Ürün sepetten silindi.");
-        })
-        .catch((error) => {
-          console.error("Ürün silinirken hata oluştu:", error);
-        });
-    },
-    confirmCart(): void {
-      if (this.cartItems.length > 0) {
-        alert("Sepetiniz başarıyla onaylandı!");
-        const cartItemsRef = ref(db, 'cartItems');
-        remove(cartItemsRef); // Sepeti temizle
-      } else {
-        alert("Sepetinizde ürün bulunmamaktadır.");
-      }
-    },
+    this.cartStore.getCartItems();
   },
 });
 </script>
