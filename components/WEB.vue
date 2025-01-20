@@ -218,7 +218,7 @@
             <li><a href="#">İletişim</a></li>
             <li><a href="#">Mobil Uygulamalar</a></li>
             <li><a href="#">Kullanım Koşulları</a></li>
-            <li><a href="#">Çerez Ayarları</a></li>
+          <li><a href="#">Çerez Ayarları</a></li>
           </ul>
         </div>
         <div class="footer-section">
